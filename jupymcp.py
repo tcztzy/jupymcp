@@ -95,14 +95,14 @@ async def set_and_execute_code_cell(index: int, source: str) -> list[str]:
     return await execute_cell(index)
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--server-url", required=True)
     parser.add_argument("--token", required=True)
     parser.add_argument("--path", required=True)
     args = parser.parse_args()
     websocket_url = get_jupyter_notebook_websocket_url(server_url=args.server_url, token=args.token, path=args.path)
-    async def main():
+    async def amain():
         global kernel
         global notebook
         with KernelClient(server_url=args.server_url, token=args.token) as kernel:
@@ -127,4 +127,8 @@ if __name__ == "__main__":
                 mcp.tool()(notebook.set_cell_source)
                 mcp.tool()(notebook.set_notebook_metadata)
                 await mcp.run_stdio_async()
-    asyncio.run(main())
+    asyncio.run(amain())
+
+
+if __name__ == "__main__":
+    main()
