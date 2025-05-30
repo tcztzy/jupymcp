@@ -1,0 +1,17 @@
+[project]
+name = "jupymcp"
+version = "0.1.0"
+description = "Jupyter + MCP"
+readme = "README.md"
+authors = [
+    { name = "Ziya Tang (唐梓涯)", email = "tcztzy@gmail.com" },
+]
+requires-python = ">=3.11"
+dependencies = [
+    "jupyter-kernel-client>=0.7.1",
+    "jupyter-nbmodel-client>=0.13.0",
+    "mcp>=1.9.2",
+]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
