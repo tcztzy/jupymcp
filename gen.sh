@@ -1,0 +1,17 @@
+datamodel-codegen \
+  --input .venv/lib/python3.11/site-packages/nbformat/v4/nbformat.v4.schema.json \
+  --input-file-type jsonschema \
+  --output src/jupymcp/model.py \
+  --output-model-type pydantic_v2.BaseModel \
+  --formatters ruff-check ruff-format\
+  --target-python-version 3.11 \
+  --enum-field-as-literal all \
+  --use-annotated \
+  --use-union-operator \
+  --use-schema-description \
+  --use-standard-collections \
+  --use-unique-items-as-set \
+  --use-field-description \
+  --class-name JupyterNotebook \
+  --collapse-root-models \
+  --reuse-model

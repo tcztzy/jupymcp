@@ -1,20 +1,32 @@
 [project]
 name = "jupymcp"
-version = "0.1.1"
-description = "Jupyter + MCP"
+version = "0.2.0"
+description = "Jupyter + MCP with comprehensive resource support"
 readme = "README.md"
 authors = [
     { name = "Ziya Tang (唐梓涯)", email = "tcztzy@gmail.com" },
 ]
 requires-python = ">=3.11"
 dependencies = [
-    "jupyter-kernel-client>=0.7.1",
-    "jupyter-nbmodel-client>=0.13.0",
-    "mcp>=1.9.2",
+    "jupyter-client>=8.6.3",
+    "jupyter-collaboration>=4.1.1",
+    "mcp>=1.13.1",
 ]
 [project.scripts]
 jupymcp = "jupymcp:main"
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.8.0,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "datamodel-code-generator>=0.33.0",
+    "matplotlib>=3.10.5",
+    "nbformat>=5.10.4",
+    "pandas>=2.3.2",
+    "ruff>=0.12.11",
+]
+
+[tool.ruff.lint]
+extend-select = ["I"]

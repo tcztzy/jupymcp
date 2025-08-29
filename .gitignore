@@ -8,3 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+
+# jupyter
+.ipynb_checkpoints/
+.jupyter_ystore.db
+kernel-*.json
