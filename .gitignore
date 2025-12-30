@@ -13,3 +13,10 @@ wheels/
 .ipynb_checkpoints/
 .jupyter_ystore.db
 kernel-*.json
+
+.coverage
+
+# renv
+.Rprofile
+renv.lock
+renv/
