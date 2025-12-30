@@ -20,3 +20,14 @@ kernel-*.json
 .Rprofile
 renv.lock
 renv/
+
+# rust
+.crates.toml
+.crates2.json
+
+# local
+bin/
+kernels/
+
+# Claude Code
+.claude/
