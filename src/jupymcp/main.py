@@ -68,9 +68,14 @@ _notebook_lock_manager = NotebookLockManager()
 
 @asynccontextmanager
 async def kernel_manager():
+    """Create local kernel manager.
+
+    Yields:
+        AsyncMultiKernelManager instance
+    """
+    km = AsyncMultiKernelManager()
+    km.kernel_spec_manager = KernelSpecManager()
     try:
-        km = AsyncMultiKernelManager()
-        km.kernel_spec_manager = KernelSpecManager()
         yield km
     finally:
         await km.shutdown_all(now=True)
@@ -257,7 +262,9 @@ def outputs_to_content(path: Path, cell: CodeCell) -> list[ContentBlock]:
                                     EmbeddedResource(
                                         type="resource",
                                         resource=TextResourceContents(
-                                            uri=AnyUrl(f"notebook://{path}#{cell.id}"),
+                                            uri=AnyUrl(
+                                                f"notebook://{path.as_posix()}#{cell.id}"
+                                            ),
                                             mimeType="text/html",
                                             text=multiline_string(data),
                                         ),
@@ -509,6 +516,12 @@ async def amain(
     transport: Literal["stdio", "sse", "streamable-http"] = "stdio",
     mount_path: str | None = None,
 ):
+    """Run MCP server.
+
+    Args:
+        transport: Transport protocol (stdio, sse, or streamable-http)
+        mount_path: Mount path for SSE transport
+    """
     async with kernel_manager() as mkm:
         mcp = create_mcp(mkm)
         match transport:
@@ -524,11 +537,16 @@ def main():
     import argparse
     import asyncio
 
-    parser = argparse.ArgumentParser("jupymcp")
-    parser.add_argument(
-        "--transport", default="stdio", choices=("stdio", "sse", "streamable-http")
+    parser = argparse.ArgumentParser(
+        "jupymcp", description="Jupyter MCP server"
     )
-    parser.add_argument("--mount-path")
+    parser.add_argument(
+        "--transport",
+        default="stdio",
+        choices=("stdio", "sse", "streamable-http"),
+        help="Transport protocol (default: stdio)",
+    )
+    parser.add_argument("--mount-path", help="Mount path for SSE transport")
     args = parser.parse_args()
 
     asyncio.run(amain(args.transport, args.mount_path))
